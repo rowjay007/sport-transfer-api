@@ -50,6 +50,7 @@ const transferUpdates = [
 ];
 
 const details = [];
+const specificDetails = [];
 
 transferUpdates.forEach((transferUpdate) => {
   axios
@@ -67,17 +68,46 @@ transferUpdates.forEach((transferUpdate) => {
           source: transferUpdate.name,
         });
       });
-      res.json(details);
     })
     .catch((err) => console.log(err));
 });
 
 app.get("/", (req, res) => {
-  res.json("Hello World!");
+  res.json("Welcome to Transfer News API");
 });
 
-app.get("/transfer", (req, res) => {
+app.get("/sports", (req, res) => {
   res.json(details);
+});
+
+app.get("/sports/:transferUpdateId", async (req, res) => {
+  const transferUpdateId = req.params.transferUpdateId;
+
+  const transferUpdateAddress = transferUpdates.filter(
+    (transferUpdate) => transferUpdate.name == transferUpdateId
+  )[0].address;
+  const transferUpdateBase = transferUpdates.filter(
+    (transferUpdate) => transferUpdate.name == transferUpdateId
+  )[0].transferUpdateBase;
+
+  axios
+    .get(transferUpdateAddress)
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
+
+      $('a:contains("transfer")', html).each(function () {
+        const title = $(this).text();
+        const url = $(this).attr("href");
+        specificDetails.push({
+          title,
+          url: transferUpdateBase + url,
+          source: transferUpdateId,
+        });
+      });
+      res.json(specificDetails);
+    })
+    .catch((err) => console.log(err));
 });
 
 app.listen(PORT, () => {
