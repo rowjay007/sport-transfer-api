@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 const axios = require("axios");
 
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const transferUpdates = [
   {
@@ -46,6 +46,41 @@ const transferUpdates = [
     name: "goal",
     address: "https://www.goal.com/en-ng/category/transfers",
     base: "https://www.goal.com",
+  },
+  {
+    name: "sportinglife",
+    address: "https://www.sportinglife.com/football/transfer-centre",
+    base: "https://www.sportinglife.com",
+  },
+  {
+    name: "newsnowuk",
+    address: "https://www.newsnow.co.uk/h/Sport/Football/Transfer+News",
+    base: "https://www.newsnow.co.uk",
+  },
+  {
+    name: "bt",
+    address: "https://www.bt.com/sport/football/news",
+    base: "https://www.bt.com",
+  },
+  {
+    name: "sportsmole",
+    address: "https://www.sportsmole.co.uk/football/transfer-talk/",
+    base: "https://www.sportsmole.co.uk",
+  },
+  {
+    name: "thesunuk",
+    address: "https://www.thesun.co.uk/sport/football/",
+    base: "https://www.thesun.co.uk",
+  },
+  {
+    name: "givemesport",
+    address: "https://www.givemesport.com/transfer-rumours",
+    base: "https://www.givemesport.com",
+  },
+  {
+    name: "givemesport",
+    address: "https://www.footballtransfers.com/en",
+    base: "https://www.footballtransfers.com",
   },
 ];
 
